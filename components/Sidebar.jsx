@@ -3,12 +3,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button, Typography } from "@material-tailwind/react";
 import {
-  RiHistoryLine,
-  RiHomeSmile2Line,
-  RiLayout3Line,
-  RiLogoutBoxLine,
-  RiUserLine,
-} from "react-icons/ri";
+  HiOutlineViewGrid,
+  HiOutlineUser,
+  HiOutlineHome,
+  HiOutlineClock,
+  HiOutlineLogout,
+} from "react-icons/hi";
 
 export default function Sidebar() {
   const router = useRouter();
@@ -31,10 +31,10 @@ export default function Sidebar() {
       <div className="flex h-full flex-col justify-between border-t border-gray-100 p-6">
         <div className="flex flex-col gap-[6px]">
           {[
-            ["Dashboard", <RiLayout3Line />, "/"],
-            ["Users", <RiUserLine />, "/users"],
-            ["Rooms", <RiHomeSmile2Line />, "/rooms"],
-            ["Log", <RiHistoryLine />, "/log"],
+            ["Dashboard", <HiOutlineViewGrid />, "/"],
+            ["Users", <HiOutlineUser />, "/users"],
+            ["Rooms", <HiOutlineHome />, "/rooms"],
+            ["Log", <HiOutlineClock />, "/log"],
           ].map(([text, icon, path], index) => {
             return (
               <Link
@@ -58,7 +58,7 @@ export default function Sidebar() {
           color="red"
           className="inline-flex h-12 items-center justify-center gap-2 bg-red-50 hover:bg-red-100"
         >
-          <RiLogoutBoxLine className="text-[24px]" />
+          <HiOutlineLogout className="text-[24px]" />
           <Typography className="font-semibold capitalize">Sign Out</Typography>
         </Button>
       </div>
