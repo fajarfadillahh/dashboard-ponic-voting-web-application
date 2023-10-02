@@ -14,7 +14,7 @@ export default function Sidebar() {
   const router = useRouter();
 
   return (
-    <aside className="flex h-screen w-[300px] flex-col border-r border-gray-100">
+    <aside className="hidden h-full w-[300px] flex-col border-r border-gray-100 bg-white md:flex">
       <div className="inline-flex min-h-[64px] items-center justify-center gap-[6px]">
         <Image
           src="/assets/ponic-icon.svg"
@@ -28,7 +28,7 @@ export default function Sidebar() {
         </Typography>
       </div>
 
-      <div className="flex h-full flex-col justify-between border-t border-gray-100 p-6">
+      <div className="flex flex-1 flex-col justify-between border-t border-gray-100 p-6">
         <div className="flex flex-col gap-[6px]">
           {[
             ["Dashboard", <HiOutlineViewGrid />, "/"],

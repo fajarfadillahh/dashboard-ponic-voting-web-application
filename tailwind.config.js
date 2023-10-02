@@ -10,7 +10,11 @@ export default withMT({
     fontFamily: {
       sans: ["Figtree", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      screens: {
+        md: "768px",
+      },
+    },
   },
   plugins: [
     require("@tailwindcss/line-clamp"),

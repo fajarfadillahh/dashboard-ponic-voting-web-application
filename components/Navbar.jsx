@@ -1,20 +1,31 @@
-import { HiBadgeCheck, HiOutlineLogout } from "react-icons/hi";
+import { HiBadgeCheck, HiMenu, HiOutlineLogout } from "react-icons/hi";
 import {
   Menu,
   MenuHandler,
   MenuList,
   MenuItem,
   Typography,
+  IconButton,
 } from "@material-tailwind/react";
 
-export default function Navbar() {
+export default function Navbar({ setOpen }) {
   const handleSignOut = () => {
     alert("Anda berhasil keluar");
   };
 
   return (
     <nav className="border-b border-gray-100 bg-white px-6">
-      <div className="flex h-16 items-center justify-end">
+      <div className="flex h-16 items-center justify-between md:justify-end">
+        <IconButton
+          size="sm"
+          color="gray"
+          variant="outlined"
+          className="text-xl md:hidden"
+          onClick={() => setOpen(true)}
+        >
+          <HiMenu />
+        </IconButton>
+
         <Menu placement="bottom-end" allowHover>
           <MenuHandler>
             <div className="inline-flex cursor-pointer items-center gap-1.5">
