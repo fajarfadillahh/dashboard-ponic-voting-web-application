@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @db.VarChar(255)
+  fullname   String   @db.VarChar(255)
+  password   String   @db.VarChar(255)
+  created_at DateTime @default(now())
+  rooms      Room[]
+  votes      Vote[]
+
+  @@map("users")
+}
+
+model Room {
+  id         Int         @id @default(autoincrement())
+  name       String      @db.VarChar(255)
+  start      BigInt
+  end        BigInt
+  code       String      @db.VarChar(10)
+  user_id    Int
+  created_at DateTime    @default(now())
+  candidate  Candidate[]
+  user       User        @relation(fields: [user_id], references: [id])
+  votes      Vote[]
+
+  @@map("rooms")
+}
+
+model Candidate {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  room_id    Int
+  created_at DateTime @default(now())
+  rooms      Room     @relation(fields: [room_id], references: [id])
+  votes      Vote[]
+
+  @@map("candidates")
+}
+
+model Vote {
+  id           Int       @id @default(autoincrement())
+  user_id      Int
+  room_id      Int
+  candidate_id Int
+  created_at   DateTime  @default(now())
+  candidate    Candidate @relation(fields: [candidate_id], references: [id])
+  room         Room      @relation(fields: [room_id], references: [id])
+  user         User      @relation(fields: [user_id], references: [id])
+
+  @@map("votes")
+}
+
+model Admin {
+  id         Int        @id @default(autoincrement())
+  username   String     @db.VarChar(100)
+  fullname   String     @db.VarChar(100)
+  password   String     @db.VarChar(100)
+  email      String     @db.VarChar(100)
+  role       AdminRole?
+  created_at DateTime   @default(now())
+
+  @@map("admin")
+}
+
+model Log {
+  id         Int      @id @default(autoincrement())
+  name       String
+  log_id     String
+  device     String
+  created_at DateTime @default(now())
+
+  @@map("logs")
+}
+
+model Token {
+  id         Int      @id @default(autoincrement())
+  value      String
+  expired    BigInt
+  created_at DateTime @default(now())
+
+  @@map("tokens")
+}
+
+enum AdminRole {
+  SUPER
+  NORMAL
+}
