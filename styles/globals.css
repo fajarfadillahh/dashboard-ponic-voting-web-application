@@ -5,3 +5,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* custom components */
+@layer components {
+  .sidebar-active.active {
+    @apply bg-pink-500 text-white;
+  }
+}
