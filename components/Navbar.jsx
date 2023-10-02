@@ -13,7 +13,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 z-50 w-[calc(100%-300px)] max-w-[1140px] border-b border-gray-100 bg-white px-6">
+    <nav className="border-b border-gray-100 bg-white px-6">
       <div className="flex h-16 items-center justify-end">
         <Menu placement="bottom-end" allowHover>
           <MenuHandler>
