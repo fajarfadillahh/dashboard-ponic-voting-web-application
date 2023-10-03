@@ -16,14 +16,23 @@ export default async function handler(req, res) {
               name: true,
             },
           },
+          user: {
+            select: {
+              fullname: true,
+            },
+          },
         },
       });
 
       res.status(200).json({
         success: true,
         data: rooms.map((room) => {
+          room.owner = room.user.fullname;
           room.candidates = room.candidate;
+
+          delete room.user;
           delete room.candidate;
+
           return {
             ...room,
             start: Number(room.start),

@@ -94,6 +94,7 @@ describe("GET /api/rooms", function () {
           start: expect.any(Number),
           end: expect.any(Number),
           code: expect.any(String),
+          owner: expect.any(String),
           candidates: expect.arrayContaining([
             expect.objectContaining({
               id: expect.any(Number),
