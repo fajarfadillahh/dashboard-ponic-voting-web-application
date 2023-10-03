@@ -3,12 +3,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button, Drawer, Typography } from "@material-tailwind/react";
 import {
-  HiOutlineViewGrid,
-  HiOutlineUser,
-  HiOutlineHome,
-  HiOutlineClock,
-  HiOutlineLogout,
-} from "react-icons/hi";
+  IconContext,
+  SquaresFour,
+  User,
+  House,
+  ClockCounterClockwise,
+  SignOut,
+} from "@phosphor-icons/react";
 
 export default function SidebarMobile({ open, setOpen }) {
   const router = useRouter();
@@ -32,10 +33,10 @@ export default function SidebarMobile({ open, setOpen }) {
         <div className="flex flex-1 flex-col justify-between border-t border-gray-100 p-6">
           <div className="flex flex-col gap-[6px]">
             {[
-              ["Dashboard", <HiOutlineViewGrid />, "/"],
-              ["Users", <HiOutlineUser />, "/users"],
-              ["Rooms", <HiOutlineHome />, "/rooms"],
-              ["Log", <HiOutlineClock />, "/log"],
+              ["Dashboard", <SquaresFour />, "/"],
+              ["Users", <User />, "/users"],
+              ["Rooms", <House />, "/rooms"],
+              ["Log", <ClockCounterClockwise />, "/log"],
             ].map(([text, icon, path], index) => {
               return (
                 <Link
@@ -47,7 +48,14 @@ export default function SidebarMobile({ open, setOpen }) {
                       : null
                   }`}
                 >
-                  <div className="text-[24px]">{icon}</div>
+                  <IconContext.Provider
+                    value={{
+                      size: 24,
+                      weight: `${router.pathname === path ? "fill" : "bold"}`,
+                    }}
+                  >
+                    {icon}
+                  </IconContext.Provider>
                   <span className="font-semibold">{text}</span>
                 </Link>
               );
@@ -59,7 +67,7 @@ export default function SidebarMobile({ open, setOpen }) {
             color="red"
             className="inline-flex h-12 items-center justify-center gap-2 bg-red-50 hover:bg-red-100"
           >
-            <HiOutlineLogout className="text-[24px]" />
+            <SignOut size={24} weight="bold" />
             <Typography className="font-semibold capitalize">
               Sign Out
             </Typography>

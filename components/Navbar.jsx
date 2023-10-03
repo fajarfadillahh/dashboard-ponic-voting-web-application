@@ -1,4 +1,4 @@
-import { HiBadgeCheck, HiMenu, HiOutlineLogout } from "react-icons/hi";
+import { List, SealCheck, SignOut } from "@phosphor-icons/react";
 import {
   Menu,
   MenuHandler,
@@ -23,7 +23,7 @@ export default function Navbar({ setOpen }) {
           className="text-xl md:hidden"
           onClick={() => setOpen(true)}
         >
-          <HiMenu />
+          <List size={20} weight="bold" />
         </IconButton>
 
         <Menu placement="bottom-end" allowHover>
@@ -33,8 +33,8 @@ export default function Navbar({ setOpen }) {
                 Fajar Fadillah A
               </Typography>
 
-              <div className="text-xl text-blue-500">
-                <HiBadgeCheck />
+              <div className="text-blue-500">
+                <SealCheck size={20} weight="fill" />
               </div>
             </div>
           </MenuHandler>
@@ -53,7 +53,7 @@ export default function Navbar({ setOpen }) {
               className="flex items-center gap-2 text-gray-500"
               onClick={handleSignOut}
             >
-              <HiOutlineLogout className="text-sm" />
+              <SignOut size={16} weight="bold" />
               <Typography className="text-sm font-medium">Sign Out</Typography>
             </MenuItem>
           </MenuList>
