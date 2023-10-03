@@ -7,13 +7,26 @@ import {
   getTestRoom,
   getTestUser,
   removeTestAdmin,
+  loginTestAdmin,
 } from "../utils/api.util";
 
 const URL = "http://localhost:3000/api";
 
 describe("GET /api/dashboard", function () {
+  beforeAll(async () => {
+    await createTestAdmin();
+  });
+
+  afterAll(async () => {
+    await removeTestAdmin();
+  });
+
   it.concurrent("should can get data dashboard", async () => {
-    const response = await supertest(URL).get("/dashboard");
+    const api_token = await loginTestAdmin(URL);
+
+    const response = await supertest(URL)
+      .get("/dashboard")
+      .set("API_TOKEN", api_token);
 
     expect(response.status).toBe(200);
     expect(response.body.success).toBeTruthy();
@@ -25,11 +38,31 @@ describe("GET /api/dashboard", function () {
       }),
     );
   });
+
+  it.concurrent("should return 401", async () => {
+    const response = await supertest(URL).get("/dashboard");
+
+    expect(response.status).toBe(401);
+    expect(response.body.success).toBeFalsy();
+    expect(response.body.message).toBeDefined();
+  });
 });
 
 describe("GET /api/users", function () {
+  beforeAll(async () => {
+    await createTestAdmin();
+  });
+
+  afterAll(async () => {
+    await removeTestAdmin();
+  });
+
   it.concurrent("should can get data users", async () => {
-    const response = await supertest(URL).get("/users");
+    const api_token = await loginTestAdmin(URL);
+
+    const response = await supertest(URL)
+      .get("/users")
+      .set("API_TOKEN", api_token);
 
     expect(response.status).toBe(200);
     expect(response.body.success).toBeTruthy();
@@ -39,24 +72,42 @@ describe("GET /api/users", function () {
           id: expect.any(Number),
           fullname: expect.any(String),
           email: expect.any(String),
+          created_at: expect.any(String),
         }),
       ]),
     );
+  });
+
+  it.concurrent("should return 401", async () => {
+    const response = await supertest(URL).get("/users");
+
+    expect(response.status).toBe(401);
+    expect(response.body.success).toBeFalsy();
+    expect(response.body.message).toBeDefined();
   });
 });
 
 describe("DELETE /api/users", function () {
   beforeAll(async () => {
+    await createTestAdmin();
     await createTestUser();
     await createTestRoom();
   });
 
+  afterAll(async () => {
+    await removeTestAdmin();
+  });
+
   it.concurrent("should can delete data users", async () => {
     const testuser = await getTestUser();
+    const api_token = await loginTestAdmin(URL);
 
-    const response = await supertest(URL).delete("/users").send({
-      user_id: testuser.id,
-    });
+    const response = await supertest(URL)
+      .delete("/users")
+      .send({
+        user_id: testuser.id,
+      })
+      .set("API_TOKEN", api_token);
 
     expect(response.status).toBe(200);
     expect(response.body.success).toBeTruthy();
@@ -64,7 +115,11 @@ describe("DELETE /api/users", function () {
   });
 
   it.concurrent("should return 400", async () => {
-    const response = await supertest(URL).delete("/users").send();
+    const api_token = await loginTestAdmin(URL);
+    const response = await supertest(URL)
+      .delete("/users")
+      .send()
+      .set("API_TOKEN", api_token);
 
     expect(response.status).toBe(400);
     expect(response.body.success).toBeFalsy();
@@ -72,19 +127,42 @@ describe("DELETE /api/users", function () {
   });
 
   it.concurrent("should return 404", async () => {
-    const response = await supertest(URL).delete("/users").send({
-      user_id: 696969,
-    });
+    const api_token = await loginTestAdmin(URL);
+    const response = await supertest(URL)
+      .delete("/users")
+      .send({
+        user_id: 696969,
+      })
+      .set("API_TOKEN", api_token);
 
     expect(response.status).toBe(404);
+    expect(response.body.success).toBeFalsy();
+    expect(response.body.message).toBeDefined();
+  });
+
+  it.concurrent("should return 401", async () => {
+    const response = await supertest(URL).get("/users");
+
+    expect(response.status).toBe(401);
     expect(response.body.success).toBeFalsy();
     expect(response.body.message).toBeDefined();
   });
 });
 
 describe("GET /api/rooms", function () {
+  beforeAll(async () => {
+    await createTestAdmin();
+  });
+
+  afterAll(async () => {
+    await removeTestAdmin();
+  });
+
   it.concurrent("should can get data rooms", async () => {
-    const response = await supertest(URL).get("/rooms");
+    const api_token = await loginTestAdmin(URL);
+    const response = await supertest(URL)
+      .get("/rooms")
+      .set("API_TOKEN", api_token);
 
     expect(response.status).toBe(200);
     expect(response.body.success).toBeTruthy();
@@ -97,6 +175,7 @@ describe("GET /api/rooms", function () {
           end: expect.any(Number),
           code: expect.any(String),
           owner: expect.any(String),
+          created_at: expect.any(String),
           candidates: expect.arrayContaining([
             expect.objectContaining({
               id: expect.any(Number),
@@ -107,27 +186,45 @@ describe("GET /api/rooms", function () {
       ]),
     );
   });
+
+  it.concurrent("should return 401", async () => {
+    const response = await supertest(URL).get("/rooms");
+
+    expect(response.status).toBe(401);
+    expect(response.body.success).toBeFalsy();
+    expect(response.body.message).toBeDefined();
+  });
 });
 
 describe("DELETE /api/rooms", function () {
   beforeAll(async () => {
+    await createTestAdmin();
     await createTestUser();
     await createTestRoom();
   });
 
   afterAll(async () => {
+    const api_token = await loginTestAdmin(URL);
     const testuser = await getTestUser();
-    await supertest(URL).delete("/users").send({
-      user_id: testuser.id,
-    });
+    await supertest(URL)
+      .delete("/users")
+      .send({
+        user_id: testuser.id,
+      })
+      .set("API_TOKEN", api_token);
+    await removeTestAdmin();
   });
 
   it.concurrent("should can delete data rooms", async () => {
+    const api_token = await loginTestAdmin(URL);
     const testroom = await getTestRoom();
 
-    const response = await supertest(URL).delete("/rooms").send({
-      room_id: testroom.id,
-    });
+    const response = await supertest(URL)
+      .delete("/rooms")
+      .send({
+        room_id: testroom.id,
+      })
+      .set("API_TOKEN", api_token);
 
     expect(response.status).toBe(200);
     expect(response.body.success).toBeTruthy();
@@ -135,7 +232,11 @@ describe("DELETE /api/rooms", function () {
   });
 
   it.concurrent("should return 400", async () => {
-    const response = await supertest(URL).delete("/rooms").send();
+    const api_token = await loginTestAdmin(URL);
+    const response = await supertest(URL)
+      .delete("/rooms")
+      .send()
+      .set("API_TOKEN", api_token);
 
     expect(response.status).toBe(400);
     expect(response.body.success).toBeFalsy();
@@ -143,19 +244,42 @@ describe("DELETE /api/rooms", function () {
   });
 
   it.concurrent("should return 404", async () => {
-    const response = await supertest(URL).delete("/rooms").send({
-      room_id: 696969,
-    });
+    const api_token = await loginTestAdmin(URL);
+    const response = await supertest(URL)
+      .delete("/rooms")
+      .send({
+        room_id: 696969,
+      })
+      .set("API_TOKEN", api_token);
 
     expect(response.status).toBe(404);
+    expect(response.body.success).toBeFalsy();
+    expect(response.body.message).toBeDefined();
+  });
+
+  it.concurrent("should return 401", async () => {
+    const response = await supertest(URL).get("/rooms");
+
+    expect(response.status).toBe(401);
     expect(response.body.success).toBeFalsy();
     expect(response.body.message).toBeDefined();
   });
 });
 
 describe("GET /api/logs", function () {
+  beforeAll(async () => {
+    await createTestAdmin();
+  });
+
+  afterAll(async () => {
+    await removeTestAdmin();
+  });
+
   it.concurrent("should can get data logs", async () => {
-    const response = await supertest(URL).get("/logs");
+    const api_token = await loginTestAdmin(URL);
+    const response = await supertest(URL)
+      .get("/logs")
+      .set("API_TOKEN", api_token);
 
     expect(response.status).toBe(200);
     expect(response.body.success).toBeTruthy();
@@ -169,6 +293,14 @@ describe("GET /api/logs", function () {
         }),
       ]),
     );
+  });
+
+  it.concurrent("should return 401", async () => {
+    const response = await supertest(URL).get("/logs");
+
+    expect(response.status).toBe(401);
+    expect(response.body.success).toBeFalsy();
+    expect(response.body.message).toBeDefined();
   });
 });
 

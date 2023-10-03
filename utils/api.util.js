@@ -1,5 +1,7 @@
 import prisma from "./database";
 import { hash } from "./password";
+import supertest from "supertest";
+import { jwtVerify } from "jose";
 
 async function createTestUser() {
   await prisma.user.create({
@@ -86,6 +88,22 @@ async function removeTestAdmin() {
   });
 }
 
+async function loginTestAdmin(url) {
+  const response = await supertest(url).post("/auth/login").send({
+    username: "unittest",
+    password: "unittest",
+  });
+
+  const { token } = response.body.data;
+
+  const verify = await jwtVerify(
+    token,
+    new TextEncoder().encode(process.env.JWT_SECRET_KEY),
+  );
+
+  return verify.payload.api_token;
+}
+
 export {
   createTestUser,
   createTestRoom,
@@ -94,4 +112,5 @@ export {
   createTestAdmin,
   getTestAdmin,
   removeTestAdmin,
+  loginTestAdmin,
 };
