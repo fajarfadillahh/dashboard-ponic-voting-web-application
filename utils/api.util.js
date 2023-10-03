@@ -54,4 +54,44 @@ async function getTestRoom() {
   });
 }
 
-export { createTestUser, createTestRoom, getTestUser, getTestRoom };
+async function createTestAdmin() {
+  await prisma.admin.create({
+    data: {
+      fullname: "Unit Test",
+      username: "unittest",
+      email: "unittest@mail.com",
+      password: await hash("unittest"),
+      role: "NORMAL",
+    },
+  });
+}
+
+async function getTestAdmin() {
+  await prisma.admin.findFirst({
+    data: {
+      fullname: "Unit Test",
+      username: "unittest",
+      email: "unittest@mail.com",
+      password: await hash("unittest"),
+      role: "NORMAL",
+    },
+  });
+}
+
+async function removeTestAdmin() {
+  await prisma.admin.deleteMany({
+    where: {
+      username: "unittest",
+    },
+  });
+}
+
+export {
+  createTestUser,
+  createTestRoom,
+  getTestUser,
+  getTestRoom,
+  createTestAdmin,
+  getTestAdmin,
+  removeTestAdmin,
+};

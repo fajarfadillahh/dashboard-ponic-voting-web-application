@@ -1,10 +1,12 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import supertest from "supertest";
 import {
+  createTestAdmin,
   createTestRoom,
   createTestUser,
   getTestRoom,
   getTestUser,
+  removeTestAdmin,
 } from "../utils/api.util";
 
 const URL = "http://localhost:3000/api";
@@ -167,5 +169,40 @@ describe("GET /api/logs", function () {
         }),
       ]),
     );
+  });
+});
+
+describe("POST /api/auth/login", function () {
+  beforeAll(async () => {
+    await createTestAdmin();
+  });
+
+  afterAll(async () => {
+    await removeTestAdmin();
+  });
+
+  it.concurrent("should can login", async () => {
+    const response = await supertest(URL).post("/auth/login").send({
+      username: "unittest",
+      password: "unittest",
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBeTruthy();
+    expect(response.body.data).toEqual(
+      expect.objectContaining({
+        token: expect.any(String),
+      }),
+    );
+  });
+
+  it.concurrent("should return 400", async () => {
+    const response = await supertest(URL).post("/auth/login").send({
+      username: "unittest",
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.success).toBeFalsy();
+    expect(response.body.message).toBeDefined();
   });
 });
