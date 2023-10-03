@@ -2,6 +2,7 @@ import Head from "next/head";
 
 // import components
 import Layout from "@/components/Layout";
+import Title from "@/components/Title";
 
 export default function Home() {
   return (
@@ -11,7 +12,9 @@ export default function Home() {
       </Head>
 
       <Layout>
-        <div>Home page</div>
+        <section>
+          <Title text="Dashboard" />
+        </section>
       </Layout>
     </>
   );
