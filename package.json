@@ -18,11 +18,13 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "axios": "^1.5.1",
     "bcrypt": "^5.1.1",
+    "jose": "^4.15.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-icons": "^4.11.0",
-    "tailwind-scrollbar-hide": "^1.1.7"
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "ua-parser-js": "^1.0.36"
   },
   "devDependencies": {
     "autoprefixer": "latest",
