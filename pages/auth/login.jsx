@@ -33,10 +33,10 @@ export default function Login() {
       </Head>
 
       <main className="mx-auto h-screen max-w-[1440px] overflow-hidden">
-        <section className="flex h-full w-full items-center justify-center">
+        <section className="mx-auto flex h-full w-[calc(100%-3rem)] max-w-[1120px] items-center justify-center">
           <div className="grid w-full max-w-[550px] justify-items-center gap-12">
             <div className="text-center">
-              <Typography className="text-[42px] font-extrabold text-gray-900">
+              <Typography className="text-[28px] font-extrabold text-gray-900 sm:text-[42px]">
                 Welcome Back, Fellas. 😎
               </Typography>
               <Typography className="font-medium text-gray-500">
