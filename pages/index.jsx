@@ -4,23 +4,36 @@ import Head from "next/head";
 import Layout from "@/components/Layout";
 import Title from "@/components/Title";
 import Card from "@/components/Card";
+import LoadingScreen from "@/components/LoadingScreen";
 
-const data = [
-  {
-    title: "total users",
-    amount: 48,
-  },
-  {
-    title: "total rooms",
-    amount: 27,
-  },
-  {
-    title: "total candidates",
-    amount: 79,
-  },
-];
+import fetcher from "@/utils/fetcher";
+import useSWR from "swr";
+import swrfetcher from "@/utils/swrfetcher";
 
-export default function Home() {
+export default function Home(props) {
+  const { data: dashboard, isLoading } = useSWR(props.url, swrfetcher, {
+    fallback: props.dashboard,
+  });
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  const data = [
+    {
+      title: "total users",
+      amount: dashboard.data.total_users,
+    },
+    {
+      title: "total rooms",
+      amount: dashboard.data.total_rooms,
+    },
+    {
+      title: "total candidates",
+      amount: dashboard.data.total_candidates,
+    },
+  ];
+
   return (
     <>
       <Head>
@@ -40,4 +53,26 @@ export default function Home() {
       </Layout>
     </>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const url = `http://${req.headers.host}/api/dashboard`;
+
+  try {
+    const { data } = await fetcher(
+      url,
+      "GET",
+      null,
+      "58792c3d517341d888505bcd757ce211",
+    );
+
+    return {
+      props: {
+        dashboard: data,
+        url,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+  }
 }
