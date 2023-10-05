@@ -32,10 +32,10 @@ export default function Sidebar() {
       <div className="flex flex-1 flex-col justify-between border-t border-gray-100 p-6">
         <div className="flex flex-col gap-[6px]">
           {[
-            ["Dashboard", <SquaresFour />, "/"],
-            ["Users", <User />, "/users"],
-            ["Rooms", <House />, "/rooms"],
-            ["Log", <ClockCounterClockwise />, "/log"],
+            ["Dashboard", <SquaresFour key="icon-1" />, "/"],
+            ["Users", <User key="icon-2" />, "/users"],
+            ["Rooms", <House key="icon-3" />, "/rooms"],
+            ["Logs", <ClockCounterClockwise key="icon-4" />, "/logs"],
           ].map(([text, icon, path], index) => {
             return (
               <Link
