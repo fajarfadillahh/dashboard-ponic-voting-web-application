@@ -4,11 +4,11 @@ import Head from "next/head";
 import Layout from "@/components/Layout";
 import Title from "@/components/Title";
 
-export default function Log() {
+export default function Logs() {
   return (
     <>
       <Head>
-        <title>Log - Ponic Voting Web Application.</title>
+        <title>Login History - Ponic Voting Web Application.</title>
       </Head>
 
       <Layout>
