@@ -15,7 +15,7 @@ export default function Card({ widget }) {
           </Typography>
           <Typography className="font-semibold text-gray-500">
             {widget.title === "total users"
-              ? "User"
+              ? "Users"
               : widget.title === "total rooms"
               ? "Rooms"
               : "Candidates"}
