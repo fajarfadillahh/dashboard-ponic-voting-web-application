@@ -12,3 +12,10 @@
     @apply bg-pink-500 text-white;
   }
 }
+
+::-webkit-scrollbar {
+  @apply h-2 bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-gray-300 hover:bg-gray-400;
+}

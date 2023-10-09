@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Button, IconButton } from "@material-tailwind/react";
+import { Button, Card, IconButton, Typography } from "@material-tailwind/react";
 import { Plus, Trash, PencilSimple } from "@phosphor-icons/react";
 
 // import components
@@ -8,7 +8,9 @@ import Title from "@/components/Title";
 import Form from "@/components/Form";
 
 export default function Users() {
-  const data = [
+  const TABLE_HEAD = ["No", "Name", "Email", "Action"];
+
+  const TABLE_DATA = [
     {
       id: Date.now(),
       name: "Fajar Fadillah Agustian",
@@ -23,6 +25,16 @@ export default function Users() {
       id: Date.now(),
       name: "Ahmad Zulkifli",
       email: "zulkifliahmad@mail.com",
+    },
+    {
+      id: Date.now(),
+      name: "Malik Kurniawan",
+      email: "malik22184@mail.com",
+    },
+    {
+      id: Date.now(),
+      name: "Kemal Pahlevi",
+      email: "kemal.pahlevi@mail.com",
     },
   ];
 
@@ -52,34 +64,44 @@ export default function Users() {
               </Button>
             </div>
 
-            <div className="overflow-x-scroll scrollbar-hide">
-              <table className="w-[1000px] table-auto lg:w-full">
+            <Card className="overflow-x-scroll rounded-md shadow lg:scrollbar-hide">
+              <table className="w-[1000px] table-auto text-left lg:w-full">
                 <thead className="bg-gray-100">
-                  <tr className="rounded-t-md">
-                    <th className="w-[50px] rounded-tl-md p-4 text-left font-semibold">
-                      No.
-                    </th>
-                    <th className="p-4 text-left font-semibold">Name</th>
-                    <th className="p-4 text-left font-semibold">Email</th>
-                    <th className="rounded-tr-md p-4 text-left font-semibold">
-                      Action
-                    </th>
+                  <tr>
+                    {TABLE_HEAD.map((head, index) => {
+                      return (
+                        <th
+                          key={index}
+                          className="border-b border-gray-200 bg-gray-100 p-4"
+                        >
+                          <Typography className="font-bold text-gray-900">
+                            {head}
+                          </Typography>
+                        </th>
+                      );
+                    })}
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((user, index) => {
+                  {TABLE_DATA.map((user, index) => {
                     return (
-                      <tr key={index}>
-                        <td className="w-[50px] p-4 text-left font-semibold">
-                          {index + 1}.
+                      <tr key={index} className="even:bg-gray-50">
+                        <td className="w-[50px] p-4">
+                          <Typography className="font-semibold text-gray-900">
+                            {index + 1}
+                          </Typography>
                         </td>
-                        <td className="p-4 text-left font-semibold">
-                          {user.name}
+                        <td className="p-4">
+                          <Typography className="font-semibold text-gray-900">
+                            {user.name}
+                          </Typography>
                         </td>
-                        <td className="p-4 text-left font-semibold">
-                          {user.email}
+                        <td className="p-4">
+                          <Typography className="font-semibold text-gray-900">
+                            {user.email}
+                          </Typography>
                         </td>
-                        <td className="inline-flex items-center gap-2 p-4 text-left font-semibold">
+                        <td className="inline-flex items-center gap-1 p-4">
                           <IconButton
                             size="sm"
                             variant="text"
@@ -96,7 +118,7 @@ export default function Users() {
                   })}
                 </tbody>
               </table>
-            </div>
+            </Card>
           </div>
         </section>
       </Layout>
