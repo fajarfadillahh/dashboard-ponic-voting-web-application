@@ -6,37 +6,24 @@ import { Plus, Trash, PencilSimple } from "@phosphor-icons/react";
 import Layout from "@/components/Layout";
 import Title from "@/components/Title";
 import Form from "@/components/Form";
+import LoadingScreen from "@/components/LoadingScreen";
 
-export default function Users() {
-  const TABLE_HEAD = ["No", "Name", "Email", "Action"];
+import useSWR from "swr";
+import swrfetcher from "@/utils/swrfetcher";
+import fetcher from "@/utils/fetcher";
+import convertime from "@/utils/converttime";
 
-  const TABLE_DATA = [
-    {
-      id: Date.now(),
-      name: "Fajar Fadillah Agustian",
-      email: "fajarfadillah@mail.com",
-    },
-    {
-      id: Date.now(),
-      name: "Gufronnaka Arif Wildan",
-      email: "gufronnaka.arif@mail.com",
-    },
-    {
-      id: Date.now(),
-      name: "Ahmad Zulkifli",
-      email: "zulkifliahmad@mail.com",
-    },
-    {
-      id: Date.now(),
-      name: "Malik Kurniawan",
-      email: "malik22184@mail.com",
-    },
-    {
-      id: Date.now(),
-      name: "Kemal Pahlevi",
-      email: "kemal.pahlevi@mail.com",
-    },
-  ];
+export default function Users(props) {
+  const { data: users, isLoading } = useSWR(props.url, swrfetcher, {
+    fallback: props.users,
+  });
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  const TABLE_HEAD = ["No", "Name", "Email", "Created At", "Action"];
+  const LENGTH = users.data.length;
 
   return (
     <>
@@ -83,17 +70,17 @@ export default function Users() {
                   </tr>
                 </thead>
                 <tbody>
-                  {TABLE_DATA.map((user, index) => {
+                  {users.data.map((user, index) => {
                     return (
-                      <tr key={index} className="even:bg-gray-50">
+                      <tr key={user.id} className="even:bg-gray-50">
                         <td className="w-[50px] p-4">
                           <Typography className="font-semibold text-gray-900">
-                            {index + 1}
+                            {LENGTH - index}
                           </Typography>
                         </td>
                         <td className="p-4">
                           <Typography className="font-semibold text-gray-900">
-                            {user.name}
+                            {user.fullname}
                           </Typography>
                         </td>
                         <td className="p-4">
@@ -101,14 +88,19 @@ export default function Users() {
                             {user.email}
                           </Typography>
                         </td>
+                        <td className="p-4">
+                          <Typography className="font-semibold text-gray-900">
+                            {convertime(user.created_at)}
+                          </Typography>
+                        </td>
                         <td className="inline-flex items-center gap-1 p-4">
-                          <IconButton
+                          {/* <IconButton
                             size="sm"
                             variant="text"
                             color="blue-gray"
                           >
                             <PencilSimple size={18} weight="bold" />
-                          </IconButton>
+                          </IconButton> */}
                           <IconButton size="sm" variant="text" color="red">
                             <Trash size={18} weight="bold" />
                           </IconButton>
@@ -124,4 +116,26 @@ export default function Users() {
       </Layout>
     </>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const url = `http://${req.headers.host}/api/users`;
+
+  try {
+    const { data } = await fetcher(
+      url,
+      "GET",
+      null,
+      "58792c3d517341d888505bcd757ce211",
+    );
+
+    return {
+      props: {
+        users: data,
+        url,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+  }
 }
