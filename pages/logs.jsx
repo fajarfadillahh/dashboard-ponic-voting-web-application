@@ -4,12 +4,23 @@ import { Card, Typography } from "@material-tailwind/react";
 // import components
 import Layout from "@/components/Layout";
 import Title from "@/components/Title";
+import LoadingScreen from "@/components/LoadingScreen";
 
 import fetcher from "@/utils/fetcher";
-import converttime from "@/utils/converttime";
+import swrfetcher from "@/utils/swrfetcher";
+import useSWR from "swr";
+import { convertTimeLastLogin } from "@/utils/converttime";
 
-export default function Logs({ logs }) {
-  const TABLE_HEAD = ["No", "Name", "Device", "Last Login"];
+export default function Logs(props) {
+  const { data: logs, isLoading } = useSWR(props.url, swrfetcher, {
+    fallback: props.logs,
+  });
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+  const TABLE_HEAD = ["No", "Log Id", "Name", "Device", "Last Login"];
+  const LENGTH = logs.data.length;
 
   return (
     <>
@@ -45,7 +56,12 @@ export default function Logs({ logs }) {
                     <tr key={index} className="even:bg-gray-50">
                       <td className="w-[50px] p-4">
                         <Typography className="font-semibold text-gray-900">
-                          {index + 1}
+                          {LENGTH - index}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography className="font-semibold text-gray-900">
+                          {log.log_id}
                         </Typography>
                       </td>
                       <td className="p-4">
@@ -60,7 +76,7 @@ export default function Logs({ logs }) {
                       </td>
                       <td className="p-4">
                         <Typography className="font-semibold text-gray-900">
-                          {converttime(log.created_at)}
+                          {convertTimeLastLogin(log.created_at)}
                         </Typography>
                       </td>
                     </tr>

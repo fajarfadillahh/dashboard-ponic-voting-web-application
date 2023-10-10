@@ -17,7 +17,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import swrfetcher from "@/utils/swrfetcher";
-import convertime from "@/utils/converttime";
+import { convertTimeRooms } from "@/utils/converttime";
 
 export default function Rooms(props) {
   const { data: rooms, isLoading } = useSWR(props.url, swrfetcher, {
@@ -38,6 +38,7 @@ export default function Rooms(props) {
     "End",
     "Action",
   ];
+  const LENGTH = rooms.data.length;
 
   return (
     <>
@@ -80,7 +81,7 @@ export default function Rooms(props) {
                       <tr key={index} className="even:bg-gray-50">
                         <td className="w-[50px] p-4">
                           <Typography className="font-semibold text-gray-900">
-                            {index + 1}
+                            {LENGTH - index}
                           </Typography>
                         </td>
                         <td className="w-[350px] p-4">
@@ -107,21 +108,21 @@ export default function Rooms(props) {
                         </td>
                         <td className="w-[200px] p-4">
                           <Tooltip
-                            content={convertime(room.start)}
+                            content={convertTimeRooms(room.start)}
                             placement="top"
                           >
                             <Typography className="line-clamp-1 font-semibold text-gray-900">
-                              {convertime(room.start)}
+                              {convertTimeRooms(room.start)}
                             </Typography>
                           </Tooltip>
                         </td>
                         <td className="w-[200px] p-4">
                           <Tooltip
-                            content={convertime(room.end)}
+                            content={convertTimeRooms(room.end)}
                             placement="top"
                           >
                             <Typography className="line-clamp-1 font-semibold text-gray-900">
-                              {convertime(room.end)}
+                              {convertTimeRooms(room.end)}
                             </Typography>
                           </Tooltip>
                         </td>
