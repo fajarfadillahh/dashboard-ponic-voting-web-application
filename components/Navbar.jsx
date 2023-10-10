@@ -8,9 +8,20 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 
+import Cookies from "js-cookie";
+
 export default function Navbar({ setOpen }) {
+  const fullname = Cookies.get("fullname");
+  const email = Cookies.get("email");
+
   const handleSignOut = () => {
-    alert("Anda berhasil keluar");
+    if (confirm("apakah anda yakin?")) {
+      Cookies.remove("token");
+      Cookies.remove("fullname");
+      Cookies.remove("api_token");
+      Cookies.remove("email");
+      return (window.location.href = "/auth/login");
+    }
   };
 
   return (
@@ -30,7 +41,7 @@ export default function Navbar({ setOpen }) {
           <MenuHandler>
             <div className="inline-flex cursor-pointer items-center gap-1.5">
               <Typography className="font-semibold capitalize text-gray-900">
-                Fajar Fadillah A
+                {fullname}
               </Typography>
 
               <div className="text-blue-500">
@@ -42,10 +53,10 @@ export default function Navbar({ setOpen }) {
           <MenuList>
             <MenuItem>
               <Typography className="font-semibold text-gray-900">
-                Fajar Fadillah Agustian
+                {fullname}
               </Typography>
               <Typography className="text-sm font-medium text-gray-500">
-                fajarfadillah@mail.com
+                {email}
               </Typography>
             </MenuItem>
             <hr className="my-3" />

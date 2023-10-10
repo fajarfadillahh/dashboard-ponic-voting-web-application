@@ -11,6 +11,8 @@ import {
   SignOut,
 } from "@phosphor-icons/react";
 
+import Cookies from "js-cookie";
+
 export default function Sidebar() {
   const router = useRouter();
 
@@ -65,6 +67,15 @@ export default function Sidebar() {
           variant="text"
           color="red"
           className="inline-flex h-12 items-center justify-center gap-2 bg-red-50 hover:bg-red-100"
+          onClick={() => {
+            if (confirm("apakah anda yakin?")) {
+              Cookies.remove("token");
+              Cookies.remove("fullname");
+              Cookies.remove("api_token");
+              Cookies.remove("email");
+              return (window.location.href = "/auth/login");
+            }
+          }}
         >
           <SignOut size={24} weight="bold" />
           <Typography className="font-semibold capitalize">Sign Out</Typography>

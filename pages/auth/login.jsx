@@ -6,8 +6,11 @@ import { Eye, EyeClosed, IconContext } from "@phosphor-icons/react";
 // import components
 import Form from "@/components/Form";
 
-export default function Login() {
-  const [email, setEmail] = useState("");
+import fetcher from "@/utils/fetcher";
+import Cookies from "js-cookie";
+
+export default function Login(props) {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [type, setType] = useState("password");
   const [icon, setIcon] = useState(<Eye />);
@@ -22,8 +25,28 @@ export default function Login() {
     }
   };
 
-  const handleLogin = () => {
-    console.log(`Email: ${email}`, `Passwod: ${password}`);
+  const handleLogin = async () => {
+    try {
+      const { data } = await fetcher(
+        props.url,
+        "POST",
+        {
+          username,
+          password,
+        },
+        null,
+      );
+
+      if (data.success) {
+        Cookies.set("token", data.data.token, {
+          path: "/",
+          expires: new Date(Date.now() + 1000 * 60 * 60), // 1 hour
+        });
+        return (window.location.href = "/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -46,10 +69,10 @@ export default function Login() {
 
             <div className="grid w-full max-w-[425px]">
               <Form
-                type="email"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
               <div className="relative mt-3 flex w-full items-center">
                 <Form
@@ -86,4 +109,14 @@ export default function Login() {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const url = `http://${req.headers.host}/api/auth/login`;
+
+  return {
+    props: {
+      url,
+    },
+  };
 }
