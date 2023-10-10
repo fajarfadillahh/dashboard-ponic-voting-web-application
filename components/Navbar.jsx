@@ -7,10 +7,13 @@ import {
   Typography,
   IconButton,
 } from "@material-tailwind/react";
+import { useEffect, useState } from "react";
 
 import Cookies from "js-cookie";
 
 export default function Navbar({ setOpen }) {
+  const [client, setClient] = useState(false);
+
   const fullname = Cookies.get("fullname");
   const email = Cookies.get("email");
 
@@ -23,6 +26,14 @@ export default function Navbar({ setOpen }) {
       return (window.location.href = "/auth/login");
     }
   };
+
+  useEffect(() => {
+    setClient(true);
+  });
+
+  if (!client) {
+    return;
+  }
 
   return (
     <nav className="border-b border-gray-100 bg-white px-6">
