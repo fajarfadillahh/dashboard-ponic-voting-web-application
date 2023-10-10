@@ -1,7 +1,6 @@
 import Head from "next/head";
 import {
   Card,
-  Chip,
   IconButton,
   Tooltip,
   Typography,
@@ -12,8 +11,23 @@ import { Trash } from "@phosphor-icons/react";
 import Layout from "@/components/Layout";
 import Title from "@/components/Title";
 import Form from "@/components/Form";
+import Status from "@/components/Status";
+import LoadingScreen from "@/components/LoadingScreen";
 
-export default function Rooms() {
+import fetcher from "@/utils/fetcher";
+import useSWR from "swr";
+import swrfetcher from "@/utils/swrfetcher";
+import convertime from "@/utils/converttime";
+
+export default function Rooms(props) {
+  const { data: rooms, isLoading } = useSWR(props.url, swrfetcher, {
+    fallback: props.rooms,
+  });
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   const TABLE_HEAD = [
     "No",
     "Rooms Name",
@@ -23,45 +37,6 @@ export default function Rooms() {
     "Start",
     "End",
     "Action",
-  ];
-
-  const TABLE_DATA = [
-    {
-      id: Date.now(),
-      name: "Pemilihan Ketua RT.05 Kel. Pangkalan Jati Depok Jawa Barat",
-      owner: "Fajar Fadillah Agustian",
-      code: "KXANCMER",
-      status: "completed",
-      start: "Selasa 10/10/2023",
-      end: "Rabu 11/10/2023",
-    },
-    {
-      id: Date.now(),
-      name: "Pemilihan Ketua RT.05 Kel. Pangkalan Jati Depok Jawa Barat",
-      owner: "Fajar Fadillah Agustian",
-      code: "KXANCMER",
-      status: "ongoing",
-      start: "Selasa 10/10/2023",
-      end: "Rabu 11/10/2023",
-    },
-    {
-      id: Date.now(),
-      name: "Pemilihan Ketua RT.05 Kel. Pangkalan Jati Depok Jawa Barat",
-      owner: "Fajar Fadillah Agustian",
-      code: "KXANCMER",
-      status: "pending",
-      start: "Selasa 10/10/2023",
-      end: "Rabu 11/10/2023",
-    },
-    {
-      id: Date.now(),
-      name: "Pemilihan Ketua RT.05 Kel. Pangkalan Jati Depok Jawa Barat",
-      owner: "Fajar Fadillah Agustian",
-      code: "KXANCMER",
-      status: "completed",
-      start: "Selasa 10/10/2023",
-      end: "Rabu 11/10/2023",
-    },
   ];
 
   return (
@@ -100,7 +75,7 @@ export default function Rooms() {
                   </tr>
                 </thead>
                 <tbody>
-                  {TABLE_DATA.map((user, index) => {
+                  {rooms.data.map((room, index) => {
                     return (
                       <tr key={index} className="even:bg-gray-50">
                         <td className="w-[50px] p-4">
@@ -109,51 +84,44 @@ export default function Rooms() {
                           </Typography>
                         </td>
                         <td className="w-[350px] p-4">
-                          <Tooltip content={user.name} placement="top">
+                          <Tooltip content={room.name} placement="top">
                             <Typography className="line-clamp-1 font-semibold text-gray-900">
-                              {user.name}
+                              {room.name}
                             </Typography>
                           </Tooltip>
                         </td>
                         <td className="w-[150px] p-4">
-                          <Tooltip content={user.owner} placement="top">
+                          <Tooltip content={room.owner} placement="top">
                             <Typography className="line-clamp-1 font-semibold text-gray-900">
-                              {user.owner}
+                              {room.owner}
                             </Typography>
                           </Tooltip>
                         </td>
                         <td className="w-[150px] p-4">
                           <Typography className="font-semibold text-gray-900">
-                            {user.code}
+                            {room.code}
                           </Typography>
                         </td>
                         <td className="w-[150px] p-4">
-                          <div className="w-max">
-                            <Chip
-                              size="sm"
-                              variant="ghost"
-                              value={user.status}
-                              color={
-                                user.status === "completed"
-                                  ? "green"
-                                  : user.status === "ongoing"
-                                  ? "gray"
-                                  : "amber"
-                              }
-                            />
-                          </div>
+                          <Status start={room.start} end={room.end} />
                         </td>
                         <td className="w-[200px] p-4">
-                          <Tooltip content={user.start} placement="top">
+                          <Tooltip
+                            content={convertime(room.start)}
+                            placement="top"
+                          >
                             <Typography className="line-clamp-1 font-semibold text-gray-900">
-                              {user.start}
+                              {convertime(room.start)}
                             </Typography>
                           </Tooltip>
                         </td>
                         <td className="w-[200px] p-4">
-                          <Tooltip content={user.end} placement="top">
+                          <Tooltip
+                            content={convertime(room.end)}
+                            placement="top"
+                          >
                             <Typography className="line-clamp-1 font-semibold text-gray-900">
-                              {user.end}
+                              {convertime(room.end)}
                             </Typography>
                           </Tooltip>
                         </td>
@@ -173,4 +141,26 @@ export default function Rooms() {
       </Layout>
     </>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const url = `http://${req.headers.host}/api/rooms`;
+
+  try {
+    const { data } = await fetcher(
+      url,
+      "GET",
+      null,
+      "58792c3d517341d888505bcd757ce211",
+    );
+
+    return {
+      props: {
+        rooms: data,
+        url,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+  }
 }
