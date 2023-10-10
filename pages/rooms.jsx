@@ -145,14 +145,10 @@ export default function Rooms(props) {
 
 export async function getServerSideProps({ req }) {
   const url = `http://${req.headers.host}/api/rooms`;
+  const api_token = req.cookies.api_token;
 
   try {
-    const { data } = await fetcher(
-      url,
-      "GET",
-      null,
-      "58792c3d517341d888505bcd757ce211",
-    );
+    const { data } = await fetcher(url, "GET", null, api_token);
 
     return {
       props: {
