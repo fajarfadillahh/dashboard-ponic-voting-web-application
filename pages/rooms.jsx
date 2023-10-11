@@ -22,6 +22,7 @@ import swrfetcher from "@/utils/swrfetcher";
 
 export default function Rooms(props) {
   const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
 
   const { data: rooms, isLoading } = useSWR(props.url, swrfetcher, {
     fallback: props.rooms,
@@ -32,6 +33,12 @@ export default function Rooms(props) {
   }
 
   const TABLE_HEAD = ["No", "Rooms Name", "Owner", "Code", "Status", "Action"];
+  const LENGTH = rooms.data.length;
+
+  const handleDetailRooms = (data) => {
+    setOpen(true);
+    setSelected(data);
+  };
 
   return (
     <>
@@ -104,7 +111,7 @@ export default function Rooms(props) {
                             size="sm"
                             variant="text"
                             color="blue-gray"
-                            onClick={() => setOpen(true)}
+                            onClick={() => handleDetailRooms(room)}
                           >
                             <Eye size={18} weight="bold" />
                           </IconButton>
@@ -119,7 +126,11 @@ export default function Rooms(props) {
               </table>
             </Card>
 
-            <RoomsDetailModal open={open} handleOpen={() => setOpen(!open)} />
+            <RoomsDetailModal
+              open={open}
+              handleOpen={() => setOpen(!open)}
+              room={selected}
+            />
           </div>
         </section>
       </Layout>

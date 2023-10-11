@@ -7,15 +7,9 @@ import {
 } from "@material-tailwind/react";
 import { X } from "@phosphor-icons/react";
 
-import converttime from "@/utils/converttime";
+import { convertTimeRooms } from "@/utils/converttime";
 
-export default function RoomsDetailModal({
-  open,
-  handleOpen,
-  start,
-  end,
-  candidates,
-}) {
+export default function RoomsDetailModal({ open, handleOpen, room }) {
   return (
     <Dialog
       size="md"
@@ -46,7 +40,7 @@ export default function RoomsDetailModal({
               Start Voting:
             </Typography>
             <Typography variant="h6" className="font-semibold text-gray-900">
-              Selasa 10/10/2023 10:30
+              {convertTimeRooms(room.start)}
             </Typography>
           </div>
 
@@ -55,7 +49,7 @@ export default function RoomsDetailModal({
               End Voting:
             </Typography>
             <Typography variant="h6" className="font-semibold text-gray-900">
-              Kamis 12/10/2023 10:30
+              {convertTimeRooms(room.end)}
             </Typography>
           </div>
         </div>
@@ -65,12 +59,17 @@ export default function RoomsDetailModal({
             Candidates:
           </Typography>
           <div className="flex flex-wrap gap-2">
-            <Typography
-              variant="h6"
-              className="rounded-md border border-gray-300 px-3 py-2 font-semibold text-gray-900"
-            >
-              Fajar Fadillah Agustian
-            </Typography>
+            {room.candidates.map((candidate, index) => {
+              return (
+                <Typography
+                  key={index}
+                  variant="h6"
+                  className="rounded-md border border-gray-300 px-3 py-2 font-semibold text-gray-900"
+                >
+                  {candidate.name}
+                </Typography>
+              );
+            })}
           </div>
         </div>
       </DialogBody>
