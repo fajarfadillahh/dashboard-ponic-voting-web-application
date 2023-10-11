@@ -74,7 +74,7 @@ export default function Rooms(props) {
                       <tr key={index} className="even:bg-gray-50">
                         <td className="w-[50px] p-4">
                           <Typography className="font-semibold text-gray-900">
-                            {index + 1}
+                            {LENGTH - index}
                           </Typography>
                         </td>
                         <td className="w-[350px] p-4">

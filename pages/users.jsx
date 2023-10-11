@@ -11,7 +11,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import useSWR from "swr";
 import swrfetcher from "@/utils/swrfetcher";
 import fetcher from "@/utils/fetcher";
-import convertime from "@/utils/converttime";
+import { convertTimeCreatedAt } from "@/utils/converttime";
 
 export default function Users(props) {
   const { data: users, isLoading } = useSWR(props.url, swrfetcher, {
@@ -90,7 +90,7 @@ export default function Users(props) {
                         </td>
                         <td className="p-4">
                           <Typography className="font-semibold text-gray-900">
-                            {convertime(user.created_at)}
+                            {convertTimeCreatedAt(user.created_at)}
                           </Typography>
                         </td>
                         <td className="inline-flex items-center gap-1 p-4">
