@@ -126,11 +126,16 @@ export default function Rooms(props) {
               </table>
             </Card>
 
-            <RoomsDetailModal
-              open={open}
-              handleOpen={() => setOpen(!open)}
-              room={selected}
-            />
+            {open ? (
+              <RoomsDetailModal
+                open={open}
+                handleOpen={() => {
+                  setOpen(!open);
+                  setSelected(null);
+                }}
+                room={selected}
+              />
+            ) : null}
           </div>
         </section>
       </Layout>
