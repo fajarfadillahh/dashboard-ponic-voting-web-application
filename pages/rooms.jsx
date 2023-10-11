@@ -5,7 +5,8 @@ import {
   Tooltip,
   Typography,
 } from "@material-tailwind/react";
-import { Trash } from "@phosphor-icons/react";
+import { Eye, Trash } from "@phosphor-icons/react";
+import { useState } from "react";
 
 // import components
 import Layout from "@/components/Layout";
@@ -13,13 +14,15 @@ import Title from "@/components/Title";
 import Form from "@/components/Form";
 import Status from "@/components/Status";
 import LoadingScreen from "@/components/LoadingScreen";
+import RoomsDetailModal from "@/components/rooms/RoomsDetailModal";
 
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
 import swrfetcher from "@/utils/swrfetcher";
-import convertime from "@/utils/converttime";
 
 export default function Rooms(props) {
+  const [open, setOpen] = useState(false);
+
   const { data: rooms, isLoading } = useSWR(props.url, swrfetcher, {
     fallback: props.rooms,
   });
@@ -28,16 +31,7 @@ export default function Rooms(props) {
     return <LoadingScreen />;
   }
 
-  const TABLE_HEAD = [
-    "No",
-    "Rooms Name",
-    "Owner",
-    "Code",
-    "Status",
-    "Start",
-    "End",
-    "Action",
-  ];
+  const TABLE_HEAD = ["No", "Rooms Name", "Owner", "Code", "Status", "Action"];
 
   return (
     <>
@@ -57,7 +51,7 @@ export default function Rooms(props) {
             />
 
             <Card className="overflow-x-scroll rounded-md shadow">
-              <table className="min-w-[1350px] table-auto text-left lg:w-full">
+              <table className="min-w-[950px] table-auto text-left lg:w-full">
                 <thead className="bg-gray-100">
                   <tr>
                     {TABLE_HEAD.map((head, index) => {
@@ -105,27 +99,15 @@ export default function Rooms(props) {
                         <td className="w-[150px] p-4">
                           <Status start={room.start} end={room.end} />
                         </td>
-                        <td className="w-[200px] p-4">
-                          <Tooltip
-                            content={convertime(room.start)}
-                            placement="top"
+                        <td className="inline-flex items-center gap-2 p-4">
+                          <IconButton
+                            size="sm"
+                            variant="text"
+                            color="blue-gray"
+                            onClick={() => setOpen(true)}
                           >
-                            <Typography className="line-clamp-1 font-semibold text-gray-900">
-                              {convertime(room.start)}
-                            </Typography>
-                          </Tooltip>
-                        </td>
-                        <td className="w-[200px] p-4">
-                          <Tooltip
-                            content={convertime(room.end)}
-                            placement="top"
-                          >
-                            <Typography className="line-clamp-1 font-semibold text-gray-900">
-                              {convertime(room.end)}
-                            </Typography>
-                          </Tooltip>
-                        </td>
-                        <td className="w-[100px] p-4">
+                            <Eye size={18} weight="bold" />
+                          </IconButton>
                           <IconButton size="sm" variant="text" color="red">
                             <Trash size={18} weight="bold" />
                           </IconButton>
@@ -136,6 +118,8 @@ export default function Rooms(props) {
                 </tbody>
               </table>
             </Card>
+
+            <RoomsDetailModal open={open} handleOpen={() => setOpen(!open)} />
           </div>
         </section>
       </Layout>
