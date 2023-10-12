@@ -1,12 +1,9 @@
-/* font google: figtree */
 @import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap");
 
-/* tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* custom components */
 @layer components {
   .sidebar-active.active {
     @apply bg-pink-500 text-white;
@@ -18,4 +15,8 @@
 }
 ::-webkit-scrollbar-thumb {
   @apply rounded-full bg-gray-300 hover:bg-gray-400;
+}
+
+::selection {
+  @apply bg-pink-500 text-white;
 }

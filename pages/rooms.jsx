@@ -35,11 +35,6 @@ export default function Rooms(props) {
   const TABLE_HEAD = ["No", "Rooms Name", "Owner", "Code", "Status", "Action"];
   const LENGTH = rooms.data.length;
 
-  const handleDetailRooms = (data) => {
-    setOpen(true);
-    setSelected(data);
-  };
-
   return (
     <>
       <Head>
@@ -111,7 +106,10 @@ export default function Rooms(props) {
                             size="sm"
                             variant="text"
                             color="blue-gray"
-                            onClick={() => handleDetailRooms(room)}
+                            onClick={() => {
+                              setOpen(true);
+                              setSelected(room);
+                            }}
                           >
                             <Eye size={18} weight="bold" />
                           </IconButton>

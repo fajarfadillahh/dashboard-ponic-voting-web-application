@@ -7,19 +7,11 @@ import {
 } from "@material-tailwind/react";
 import { X } from "@phosphor-icons/react";
 
-import { convertTimeRooms } from "@/utils/converttime";
+import { convertTimeRooms, convertTimeCreatedAt } from "@/utils/converttime";
 
 export default function RoomsDetailModal({ open, handleOpen, room }) {
   return (
-    <Dialog
-      size="md"
-      open={open}
-      handler={handleOpen}
-      animate={{
-        mount: { scale: 1, y: 0 },
-        unmount: { scale: 0.9, y: -100 },
-      }}
-    >
+    <Dialog size="md" open={open} handler={handleOpen}>
       <DialogHeader className="justify-between">
         <Typography variant="h5" color="blue-gray">
           Detail Data Rooms
@@ -56,6 +48,15 @@ export default function RoomsDetailModal({ open, handleOpen, room }) {
 
         <div className="inline-flex flex-col gap-1.5">
           <Typography variant="small" className="font-semibold text-gray-500">
+            Created At:
+          </Typography>
+          <Typography variant="h6" className="font-semibold text-gray-900">
+            {convertTimeCreatedAt(room.created_at)}
+          </Typography>
+        </div>
+
+        <div className="inline-flex flex-col gap-1.5">
+          <Typography variant="small" className="font-semibold text-gray-500">
             Candidates:
           </Typography>
           <div className="flex flex-wrap gap-2">
@@ -64,7 +65,7 @@ export default function RoomsDetailModal({ open, handleOpen, room }) {
                 <Typography
                   key={index}
                   variant="h6"
-                  className="rounded-md border border-gray-300 px-3 py-2 font-semibold text-gray-900"
+                  className="rounded-md border border-gray-300 px-3 py-2 font-semibold text-gray-900 hover:border-pink-500"
                 >
                   {candidate.name}
                 </Typography>
