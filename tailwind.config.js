@@ -1,6 +1,7 @@
 import withMT from "@material-tailwind/react/utils/withMT";
 
 export default withMT({
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
