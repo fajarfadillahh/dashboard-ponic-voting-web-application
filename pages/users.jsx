@@ -53,7 +53,7 @@ export default function Users(props) {
 
             <Card className="overflow-x-scroll rounded-md shadow lg:scrollbar-hide">
               <table className="w-[1000px] table-auto text-left lg:w-full">
-                <thead className="bg-gray-100">
+                <thead>
                   <tr>
                     {TABLE_HEAD.map((head, index) => {
                       return (

@@ -38,12 +38,12 @@ export default function Navbar({ setOpen }) {
   }
 
   return (
-    <nav className="border-b border-gray-100 bg-white px-6">
+    <nav className="border-b border-gray-100 bg-white px-6 dark:border-blue-gray-800 dark:bg-blue-gray-900">
       <div className="flex h-16 items-center justify-between md:justify-end">
         <IconButton
           size="sm"
           variant="outlined"
-          className="text-xl text-gray-900 md:hidden"
+          className="text-xl text-gray-900 dark:border-white dark:text-white md:hidden"
           onClick={() => setOpen(true)}
         >
           <List size={20} weight="bold" />
@@ -66,7 +66,7 @@ export default function Navbar({ setOpen }) {
           <Menu placement="bottom-end" allowHover>
             <MenuHandler>
               <div className="inline-flex cursor-pointer items-center gap-1.5">
-                <Typography className="font-semibold capitalize text-gray-900">
+                <Typography className="font-semibold capitalize text-gray-900 dark:text-white">
                   {fullname}
                 </Typography>
 

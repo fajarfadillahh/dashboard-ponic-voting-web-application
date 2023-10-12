@@ -18,7 +18,7 @@ export default function SidebarMobile({ open, setOpen }) {
 
   return (
     <Drawer open={open} onClose={() => setOpen(false)}>
-      <aside className="fixed left-0 top-0 flex h-full w-[300px] flex-col border-r border-gray-100 bg-white md:hidden">
+      <aside className="fixed left-0 top-0 flex h-full w-[300px] flex-col border-r border-gray-100 bg-white dark:border-blue-gray-800 dark:bg-blue-gray-900 md:hidden">
         <div className="inline-flex min-h-[64px] w-full items-center justify-center gap-[6px]">
           <Image
             src="/assets/ponic-icon.svg"
@@ -27,12 +27,12 @@ export default function SidebarMobile({ open, setOpen }) {
             height={1000}
             className="h-8 w-8 rounded-full"
           />
-          <Typography className="text-[20px] font-extrabold text-gray-900">
+          <Typography className="text-[20px] font-extrabold text-gray-900 dark:text-white">
             Ponic.
           </Typography>
         </div>
 
-        <div className="flex flex-1 flex-col justify-between border-t border-gray-100 p-6">
+        <div className="flex flex-1 flex-col justify-between border-t border-gray-100 p-6 dark:border-blue-gray-800">
           <div className="flex flex-col gap-[6px]">
             {[
               ["Dashboard", <SquaresFour key="icon-1" />, "/"],
@@ -44,7 +44,7 @@ export default function SidebarMobile({ open, setOpen }) {
                 <Link
                   key={index}
                   href={path}
-                  className={`sidebar-active inline-flex h-12 items-center gap-2 rounded-md px-6 text-gray-500 hover:bg-gray-200 ${
+                  className={`sidebar-active inline-flex h-12 items-center gap-2 rounded-md px-6 text-gray-500 hover:bg-gray-200 dark:hover:bg-blue-gray-800 ${
                     router.pathname === path
                       ? "active hover:bg-pink-500 hover:text-white"
                       : null
@@ -66,8 +66,7 @@ export default function SidebarMobile({ open, setOpen }) {
 
           <Button
             variant="text"
-            color="red"
-            className="inline-flex h-12 items-center justify-center gap-2 bg-red-50 hover:bg-red-100"
+            className="inline-flex h-12 items-center justify-center gap-2 bg-red-50 text-red-500 hover:bg-red-100 dark:bg-red-500 dark:text-white dark:hover:bg-red-400"
             onClick={() => {
               if (confirm("apakah anda yakin?")) {
                 Cookies.remove("token");

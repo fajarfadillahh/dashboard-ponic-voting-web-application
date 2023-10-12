@@ -2,9 +2,9 @@ import { Typography } from "@material-tailwind/react";
 
 export default function Card({ widget }) {
   return (
-    <div className="flex h-max min-w-[320px] flex-1 justify-center rounded-md border border-gray-100 p-8">
+    <div className="flex h-max min-w-[320px] flex-1 justify-center rounded-md border border-gray-100 p-8 dark:border-blue-gray-800">
       <div className="w-full max-w-[265px]">
-        <Typography className="text-xl font-semibold capitalize text-gray-900">
+        <Typography className="text-xl font-semibold capitalize text-gray-900 dark:text-white">
           {widget.title}
           <span className="text-pink-500">:</span>
         </Typography>
