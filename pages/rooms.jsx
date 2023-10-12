@@ -24,7 +24,7 @@ export default function Rooms(props) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
-  const { data: rooms, isLoading } = useSWR(props.url, swrfetcher, {
+  const { data: rooms, isLoading } = useSWR("/rooms", swrfetcher, {
     fallback: props.rooms,
   });
 
@@ -142,16 +142,14 @@ export default function Rooms(props) {
 }
 
 export async function getServerSideProps({ req }) {
-  const url = `http://${req.headers.host}/api/rooms`;
   const api_token = req.cookies.api_token;
 
   try {
-    const { data } = await fetcher(url, "GET", null, api_token);
+    const { data } = await fetcher("/rooms", "GET", null, api_token);
 
     return {
       props: {
         rooms: data,
-        url,
       },
     };
   } catch (error) {

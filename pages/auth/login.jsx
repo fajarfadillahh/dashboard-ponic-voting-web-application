@@ -9,7 +9,7 @@ import Form from "@/components/Form";
 import fetcher from "@/utils/fetcher";
 import Cookies from "js-cookie";
 
-export default function Login(props) {
+export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [type, setType] = useState("password");
@@ -28,7 +28,7 @@ export default function Login(props) {
   const handleLogin = async () => {
     try {
       const { data } = await fetcher(
-        props.url,
+        "/login",
         "POST",
         {
           username,
@@ -109,14 +109,4 @@ export default function Login(props) {
       </main>
     </>
   );
-}
-
-export async function getServerSideProps({ req }) {
-  const url = `http://${req.headers.host}/api/auth/login`;
-
-  return {
-    props: {
-      url,
-    },
-  };
 }

@@ -19,7 +19,6 @@
     "@prisma/client": "^5.3.1",
     "@tailwindcss/line-clamp": "^0.4.4",
     "axios": "^1.5.1",
-    "bcrypt": "^5.1.1",
     "jose": "^4.15.1",
     "js-cookie": "^3.0.5",
     "next": "latest",
@@ -28,8 +27,7 @@
     "react": "latest",
     "react-dom": "latest",
     "swr": "^2.2.4",
-    "tailwind-scrollbar-hide": "^1.1.7",
-    "ua-parser-js": "^1.0.36"
+    "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
     "autoprefixer": "latest",
@@ -38,9 +36,6 @@
     "postcss": "latest",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.4",
-    "prisma": "^5.3.1",
-    "supertest": "^6.3.3",
-    "tailwindcss": "latest",
-    "vitest": "^0.34.6"
+    "tailwindcss": "latest"
   }
 }

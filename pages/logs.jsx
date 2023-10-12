@@ -12,7 +12,7 @@ import useSWR from "swr";
 import { convertTimeLastLogin } from "@/utils/converttime";
 
 export default function Logs(props) {
-  const { data: logs, isLoading } = useSWR(props.url, swrfetcher, {
+  const { data: logs, isLoading } = useSWR("/logs", swrfetcher, {
     fallback: props.logs,
   });
 
@@ -92,16 +92,14 @@ export default function Logs(props) {
 }
 
 export async function getServerSideProps({ req }) {
-  const url = `http://${req.headers.host}/api/logs`;
   const api_token = req.cookies.api_token;
 
   try {
-    const { data } = await fetcher(url, "GET", null, api_token);
+    const { data } = await fetcher("/logs", "GET", null, api_token);
 
     return {
       props: {
         logs: data,
-        url,
       },
     };
   } catch (error) {

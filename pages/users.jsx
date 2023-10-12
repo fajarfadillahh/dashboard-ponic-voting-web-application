@@ -14,7 +14,7 @@ import fetcher from "@/utils/fetcher";
 import { convertTimeCreatedAt } from "@/utils/converttime";
 
 export default function Users(props) {
-  const { data: users, isLoading } = useSWR(props.url, swrfetcher, {
+  const { data: users, isLoading } = useSWR("/users", swrfetcher, {
     fallback: props.users,
   });
 
@@ -119,16 +119,14 @@ export default function Users(props) {
 }
 
 export async function getServerSideProps({ req }) {
-  const url = `http://${req.headers.host}/api/users`;
   const api_token = req.cookies.api_token;
 
   try {
-    const { data } = await fetcher(url, "GET", null, api_token);
+    const { data } = await fetcher("/users", "GET", null, api_token);
 
     return {
       props: {
         users: data,
-        url,
       },
     };
   } catch (error) {

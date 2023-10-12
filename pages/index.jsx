@@ -11,7 +11,7 @@ import useSWR from "swr";
 import swrfetcher from "@/utils/swrfetcher";
 
 export default function Home(props) {
-  const { data: dashboard, isLoading } = useSWR(props.url, swrfetcher, {
+  const { data: dashboard, isLoading } = useSWR("/dashboard", swrfetcher, {
     fallback: props.dashboard,
   });
 
@@ -56,16 +56,16 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps({ req }) {
-  const url = `http://${req.headers.host}/api/dashboard`;
-  const api_token = req.cookies.api_token;
+  const api_token = req.cookies.api_token
+    ? req.cookies.api_token
+    : req.headers.api_token;
 
   try {
-    const { data } = await fetcher(url, "GET", null, api_token);
+    const { data } = await fetcher("/dashboard", "GET", null, api_token);
 
     return {
       props: {
         dashboard: data,
-        url,
       },
     };
   } catch (error) {
