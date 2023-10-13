@@ -14,7 +14,7 @@ import Title from "@/components/Title";
 import Form from "@/components/Form";
 import Status from "@/components/Status";
 import LoadingScreen from "@/components/LoadingScreen";
-import RoomsDetailModal from "@/components/rooms/RoomsDetailModal";
+import RoomsDetailModal from "@/components/modal/RoomsDetailModal";
 
 import fetcher from "@/utils/fetcher";
 import useSWR from "swr";
