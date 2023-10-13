@@ -59,10 +59,10 @@ export default function Login() {
         <section className="mx-auto flex h-full w-[calc(100%-3rem)] max-w-[1120px] items-center justify-center">
           <div className="grid w-full max-w-[550px] justify-items-center gap-12">
             <div className="text-center">
-              <Typography className="text-[28px] font-extrabold text-gray-900 sm:text-[42px]">
+              <Typography className="text-[28px] font-extrabold text-gray-900 dark:text-white sm:text-[42px]">
                 Welcome Back, Fellas. 😎
               </Typography>
-              <Typography className="font-medium text-gray-500">
+              <Typography className="font-medium text-gray-500 dark:text-gray-200">
                 Please login first, so you can monitoring everything.
               </Typography>
             </div>

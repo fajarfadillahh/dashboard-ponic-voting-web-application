@@ -52,17 +52,17 @@ export default function Rooms(props) {
               className="w-full lg:max-w-[300px]"
             />
 
-            <Card className="overflow-x-scroll rounded-md shadow">
+            <Card className="overflow-x-scroll rounded-md shadow dark:bg-blue-gray-800">
               <table className="min-w-[950px] table-auto text-left lg:w-full">
-                <thead className="bg-gray-100">
+                <thead>
                   <tr>
                     {TABLE_HEAD.map((head, index) => {
                       return (
                         <th
                           key={index}
-                          className="border-b border-gray-200 bg-gray-100 p-4"
+                          className="border-b border-gray-200 bg-gray-100 p-4 dark:border-gray-900 dark:bg-gray-900"
                         >
-                          <Typography className="font-bold text-gray-900">
+                          <Typography className="font-bold text-gray-900 dark:text-white">
                             {head}
                           </Typography>
                         </th>
@@ -73,28 +73,31 @@ export default function Rooms(props) {
                 <tbody>
                   {rooms.data.map((room, index) => {
                     return (
-                      <tr key={index} className="even:bg-gray-50">
+                      <tr
+                        key={index}
+                        className="even:bg-gray-50 dark:odd:bg-blue-gray-700 dark:even:bg-blue-gray-800"
+                      >
                         <td className="w-[50px] p-4">
-                          <Typography className="font-semibold text-gray-900">
+                          <Typography className="font-semibold text-gray-900 dark:text-white">
                             {LENGTH - index}
                           </Typography>
                         </td>
                         <td className="w-[350px] p-4">
                           <Tooltip content={room.name} placement="top">
-                            <Typography className="line-clamp-1 font-semibold text-gray-900">
+                            <Typography className="line-clamp-1 font-semibold text-gray-900 dark:text-white">
                               {room.name}
                             </Typography>
                           </Tooltip>
                         </td>
                         <td className="w-[150px] p-4">
                           <Tooltip content={room.owner} placement="top">
-                            <Typography className="line-clamp-1 font-semibold text-gray-900">
+                            <Typography className="line-clamp-1 font-semibold text-gray-900 dark:text-white">
                               {room.owner}
                             </Typography>
                           </Tooltip>
                         </td>
                         <td className="w-[150px] p-4">
-                          <Typography className="font-semibold text-gray-900">
+                          <Typography className="font-semibold text-gray-900 dark:text-white">
                             {room.code}
                           </Typography>
                         </td>
@@ -105,7 +108,7 @@ export default function Rooms(props) {
                           <IconButton
                             size="sm"
                             variant="text"
-                            color="blue-gray"
+                            className="text-blue-gray-500 dark:text-white"
                             onClick={() => {
                               setOpen(true);
                               setSelected(room);

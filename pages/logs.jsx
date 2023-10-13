@@ -32,17 +32,17 @@ export default function Logs(props) {
         <section className="grid gap-6">
           <Title text="Login History" />
 
-          <Card className="overflow-x-scroll rounded-md shadow lg:scrollbar-hide">
+          <Card className="overflow-x-scroll rounded-md shadow dark:bg-blue-gray-800 lg:scrollbar-hide">
             <table className="w-[1000px] table-auto text-left lg:w-full">
-              <thead className="bg-gray-100">
+              <thead>
                 <tr>
                   {TABLE_HEAD.map((head, index) => {
                     return (
                       <th
                         key={index}
-                        className="border-b border-gray-200 bg-gray-100 p-4"
+                        className="border-b border-gray-200 bg-gray-100 p-4 dark:border-gray-900 dark:bg-gray-900"
                       >
-                        <Typography className="font-bold text-gray-900">
+                        <Typography className="font-bold text-gray-900 dark:text-white">
                           {head}
                         </Typography>
                       </th>
@@ -53,29 +53,32 @@ export default function Logs(props) {
               <tbody>
                 {logs.data.map((log, index) => {
                   return (
-                    <tr key={index} className="even:bg-gray-50">
+                    <tr
+                      key={index}
+                      className="even:bg-gray-50 dark:odd:bg-blue-gray-700 dark:even:bg-blue-gray-800"
+                    >
                       <td className="w-[50px] p-4">
-                        <Typography className="font-semibold text-gray-900">
+                        <Typography className="font-semibold text-gray-900 dark:text-white">
                           {LENGTH - index}
                         </Typography>
                       </td>
                       <td className="p-4">
-                        <Typography className="font-semibold text-gray-900">
+                        <Typography className="font-semibold text-gray-900 dark:text-white">
                           {log.log_id}
                         </Typography>
                       </td>
                       <td className="p-4">
-                        <Typography className="font-semibold text-gray-900">
+                        <Typography className="font-semibold text-gray-900 dark:text-white">
                           {log.name}
                         </Typography>
                       </td>
                       <td className="p-4">
-                        <Typography className="font-semibold text-gray-900">
+                        <Typography className="font-semibold text-gray-900 dark:text-white">
                           {log.device}
                         </Typography>
                       </td>
                       <td className="p-4">
-                        <Typography className="font-semibold text-gray-900">
+                        <Typography className="font-semibold text-gray-900 dark:text-white">
                           {convertTimeLastLogin(log.created_at)}
                         </Typography>
                       </td>
