@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
-const allowedRoutes = ["/", "/users", "/rooms", "/logs"];
+const protectedRoutes = ["/", "/users", "/rooms", "/logs"];
 
 export default async function middleware(request) {
-  if (allowedRoutes.includes(request.nextUrl.pathname)) {
+  if (protectedRoutes.includes(request.nextUrl.pathname)) {
     if (!request.cookies.has("token")) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
 
-    console.log("execute homepage!");
     try {
       const token = request.cookies.get("token");
 
