@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useState } from "react";
 import { Button, Card, IconButton, Typography } from "@material-tailwind/react";
 import { Plus, Trash, PencilSimple } from "@phosphor-icons/react";
 
@@ -7,6 +8,7 @@ import Layout from "@/components/Layout";
 import Title from "@/components/Title";
 import Form from "@/components/Form";
 import LoadingScreen from "@/components/LoadingScreen";
+import DeleteModal from "@/components/modal/DeleteModal";
 
 import useSWR from "swr";
 import swrfetcher from "@/utils/swrfetcher";
@@ -14,6 +16,8 @@ import fetcher from "@/utils/fetcher";
 import { convertTimeCreatedAt } from "@/utils/converttime";
 
 export default function Users(props) {
+  const [open, setOpen] = useState(false);
+
   const { data: users, isLoading } = useSWR("/users", swrfetcher, {
     fallback: props.users,
   });
@@ -104,7 +108,12 @@ export default function Users(props) {
                           >
                             <PencilSimple size={18} weight="bold" />
                           </IconButton> */}
-                          <IconButton size="sm" variant="text" color="red">
+                          <IconButton
+                            size="sm"
+                            variant="text"
+                            color="red"
+                            onClick={() => setOpen(true)}
+                          >
                             <Trash size={18} weight="bold" />
                           </IconButton>
                         </td>
@@ -114,6 +123,8 @@ export default function Users(props) {
                 </tbody>
               </table>
             </Card>
+
+            <DeleteModal open={open} handleOpen={() => setOpen(!open)} />
           </div>
         </section>
       </Layout>
